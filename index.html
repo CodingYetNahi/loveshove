@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>For You ❤️</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #faf7f5;
+      color: #332d2d;
+    }
+
+    /* ---------- FIRST SCREEN ---------- */
+
+    .first-screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 5;
+      opacity: 1;
+      visibility: visible;
+      transition:
+        opacity 1.2s ease,
+        visibility 1.2s ease;
+      background:
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(255, 190, 200, 0.25),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 80% 80%,
+          rgba(255, 220, 180, 0.25),
+          transparent 30%
+        ),
+        #faf7f5;
+    }
+
+    .first-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .container {
+      width: min(90%, 620px);
+    }
+
+    .flower {
+      font-size: 42px;
+      margin-bottom: 18px;
+      display: inline-block;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    h1 {
+      font-size: clamp(30px, 7vw, 52px);
+      font-weight: 500;
+      letter-spacing: -1.5px;
+      margin: 0 0 12px;
+    }
+
+    .subtitle {
+      color: #756d6d;
+      font-size: 16px;
+      margin-bottom: 35px;
+    }
+
+    button {
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      background: #332d2d;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(51, 45, 45, 0.18);
+      background: #4a4141;
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    /* ---------- FINAL SCREEN ---------- */
+
+    .final-screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition:
+        opacity 1.8s ease,
+        visibility 1.8s ease;
+
+      background:
+        radial-gradient(
+          circle at 50% 50%,
+          rgba(255, 205, 215, 0.22),
+          transparent 45%
+        ),
+        #faf7f5;
+    }
+
+    .final-screen.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .final-content {
+      width: min(90%, 700px);
+      transform: translateY(20px) scale(0.97);
+      transition:
+        transform 1.8s ease;
+    }
+
+    .final-screen.show .final-content {
+      transform: translateY(0) scale(1);
+    }
+
+    .final-flowers {
+      font-size: 38px;
+      margin-bottom: 25px;
+      letter-spacing: 10px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .love-text {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(40px, 10vw, 78px);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -2px;
+      margin: 0;
+
+      animation: gentleGlow 3s ease-in-out infinite;
+    }
+
+    .love-heart {
+      display: inline-block;
+      color: #d85c6f;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    /* ---------- FLOATING DECORATIONS ---------- */
+
+    .floating-heart {
+      position: fixed;
+      bottom: -40px;
+      pointer-events: none;
+      opacity: 0;
+      color: #d85c6f;
+      animation: rise linear forwards;
+      z-index: 3;
+    }
+
+    .floating-flower {
+      position: fixed;
+      bottom: -40px;
+      pointer-events: none;
+      opacity: 0;
+      animation: riseFlower linear forwards;
+      z-index: 3;
+    }
+
+    /* ---------- ANIMATIONS ---------- */
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.16);
+      }
+    }
+
+    @keyframes gentleGlow {
+      0%, 100% {
+        opacity: 0.9;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.75;
+      }
+
+      100% {
+        transform: translateY(-110vh) rotate(25deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes riseFlower {
+      0% {
+        transform: translateY(0) rotate(-10deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.65;
+      }
+
+      100% {
+        transform: translateY(-110vh) rotate(15deg);
+        opacity: 0;
+      }
+    }
+
+    /* ---------- MOBILE ---------- */
+
+    @media (max-width: 600px) {
+      .flower {
+        font-size: 34px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .subtitle {
+        font-size: 15px;
+      }
+
+      .final-flowers {
+        font-size: 30px;
+      }
+
+      .love-text {
+        font-size: clamp(42px, 12vw, 65px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- FIRST PAGE -->
+  <section class="first-screen" id="firstScreen">
+
+    <div class="container">
+
+      <div class="flower">🌷</div>
+
+      <h1>Just something I wanted to say.</h1>
+
+      <div class="subtitle">
+        No big speech. Just a little reminder.
+      </div>
+
+      <button id="revealBtn">
+        Click here
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- FINAL PAGE -->
+  <section class="final-screen" id="finalScreen">
+
+    <div class="final-content">
+
+      <div class="final-flowers">
+        🌸 🌷 🌼
+      </div>
+
+      <h2 class="love-text">
+        I love you<br>
+        So Much <span class="love-heart">♥</span>
+      </h2>
+
+    </div>
+
+  </section>
+
+
+  <script>
+
+    const button = document.getElementById("revealBtn");
+    const firstScreen = document.getElementById("firstScreen");
+    const finalScreen = document.getElementById("finalScreen");
+
+    button.addEventListener("click", () => {
+
+      /* Fade out the first screen */
+      firstScreen.classList.add("hide");
+
+      /*
+        Wait slightly before showing the final message.
+        This makes the transition feel smoother.
+      */
+      setTimeout(() => {
+
+        finalScreen.classList.add("show");
+
+        /* Start the floating decorations */
+        createDecorations();
+
+      }, 700);
+
+    });
+
+
+    function createDecorations() {
+
+      /* Hearts */
+      for (let i = 0; i < 18; i++) {
+
+        const heart = document.createElement("div");
+
+        heart.className = "floating-heart";
+
+        const hearts = ["♥", "♡", "❤"];
+
+        heart.textContent =
+          hearts[Math.floor(Math.random() * hearts.length)];
+
+        heart.style.left = Math.random() * 100 + "vw";
+
+        heart.style.fontSize =
+          (14 + Math.random() * 20) + "px";
+
+        heart.style.animationDuration =
+          (5 + Math.random() * 4) + "s";
+
+        heart.style.animationDelay =
+          Math.random() * 3 + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 10000);
+
+      }
+
+
+      /* Flowers */
+      const flowers = ["🌸", "🌷", "🌼", "🌺"];
+
+      for (let i = 0; i < 10; i++) {
+
+        const flower = document.createElement("div");
+
+        flower.className = "floating-flower";
+
+        flower.textContent =
+          flowers[Math.floor(Math.random() * flowers.length)];
+
+        flower.style.left = Math.random() * 100 + "vw";
+
+        flower.style.fontSize =
+          (16 + Math.random() * 18) + "px";
+
+        flower.style.animationDuration =
+          (6 + Math.random() * 4) + "s";
+
+        flower.style.animationDelay =
+          Math.random() * 4 + "s";
+
+        document.body.appendChild(flower);
+
+        setTimeout(() => {
+          flower.remove();
+        }, 11000);
+
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>
